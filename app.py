@@ -6,18 +6,13 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from textblob import TextBlob
 
-# Download necessary NLTK data
-
 nltk.download('punkt')
 nltk.download('punkt_tab')
 nltk.download('stopwords')
 
 # Use a pipeline as a high-level helper
-
-
 chatbot = pipeline("text-generation", model="ContactDoctor/Bio-Medical-Llama-3-2-1B-CoT-012025")
 
-# Initialize stopwords for text preprocessing
 stop_words = set(stopwords.words('english'))
 
 # Simple function to clean and preprocess user input
@@ -31,7 +26,6 @@ def analyze_sentiment(user_input):
     sentiment = TextBlob(user_input).sentiment
     return sentiment.polarity  # Range: -1 (negative) to 1 (positive)
 
-# Healthcare-specific logic for common queries
 def healthcare_chatbot(user_input):
     cleaned_input = clean_input(user_input)
     sentiment_score = analyze_sentiment(user_input)
@@ -55,18 +49,15 @@ def healthcare_chatbot(user_input):
 
 # Streamlit web app interface
 def main():
-    # Set up the web app title and input area
     st.set_page_config(page_title="Healthcare Assistant Chatbot", page_icon="💬")
     st.title("Healthcare Assistant Chatbot")
     
-    # Add a sidebar with some options
     with st.sidebar:
         st.header("Chatbot Navigation")
         st.write("You can ask about symptoms, appointments, medication, or other healthcare-related queries.")
         st.markdown("### About")
         st.write("This is a healthcare assistant chatbot built to help you with healthcare-related queries.")
     
-    # Add styling for input and output
     st.markdown("""
         <style>
             .stTextInput>div>div>input {
@@ -93,10 +84,8 @@ def main():
         </style>
     """, unsafe_allow_html=True)
     
-    # Display a simple multi-line text input for user queries
     user_input = st.text_area("How can I assist you today?", "", height=120)
-    
-    # Add a Submit button to trigger the chatbot response
+  
     if st.button("Submit"):
         if user_input:
             with st.spinner("Thinking..."):
